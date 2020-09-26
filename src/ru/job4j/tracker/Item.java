@@ -7,6 +7,15 @@ public class Item {
     private String name;
     private LocalDateTime created = LocalDateTime.now();
 
+    public Item() {
+    }
+
+    public Item(String name) {
+    }
+
+    public Item(int id, String name) {
+    }
+
     public int getId() {
         return id;
     }
@@ -25,6 +34,10 @@ public class Item {
 
     public LocalDateTime getCreated() {
         return created;
+    }
+
+    public static void main(String[] args) {
+        Item item = new Item();
     }
 
 }
