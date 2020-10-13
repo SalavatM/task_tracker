@@ -1,8 +1,5 @@
 package ru.job4j.pojo;
 
-import ru.job4j.ru.job4j.pojo.Student;
-
-import java.text.DateFormat;
 import java.util.Date;
 
 public class College {

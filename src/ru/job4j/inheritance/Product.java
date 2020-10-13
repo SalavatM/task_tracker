@@ -4,6 +4,14 @@ public final class Product {
     private String name;
     private int price;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Product(String name, int price) {
         this.name = name;
         this.price = price;
@@ -20,5 +28,4 @@ public final class Product {
     public String label() {
         return name + ": " + price();
     }
-
 }
