@@ -31,7 +31,7 @@ public class Tracker {
         return index != -1 ? items[index] : null;
     }
 
-    public Item findById_old(int id) {
+    public Item findByIdOld(int id) {
         Item rsl = null;
         for (int index = 0; index < size; index++) {
             Item item = items[index];
@@ -76,6 +76,21 @@ public class Tracker {
         if (index != -1) {
             item.setId(id);
             items[index] = item;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean delete(int id) {
+        int index = indexOf(id);
+        if (index != -1) {
+            int start = index + 1;
+            int distPos = index;
+            int length = size - index;
+            System.arraycopy(items, start, items, distPos, length);
+            items[size - 1] = null;
+            size--;
             return true;
         } else {
             return false;
