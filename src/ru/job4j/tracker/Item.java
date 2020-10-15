@@ -11,9 +11,12 @@ public class Item {
     }
 
     public Item(String name) {
+        setName(name);
     }
 
     public Item(int id, String name) {
+        setId(id);
+        setName(name);
     }
 
     public int getId() {
