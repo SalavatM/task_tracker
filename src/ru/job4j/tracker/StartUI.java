@@ -47,6 +47,9 @@ public class StartUI {
                 StartUI.findItemByName(input, tracker);
 
             } else if (select == 6) {
+                StartUI.replaceItem(input, tracker);
+
+            } else if (select == 7) {
                 System.out.println("=== Exit Program ====");
                 run = false;
             }
@@ -61,7 +64,8 @@ public class StartUI {
         System.out.println("3. Delete item");
         System.out.println("4. Find item by Id");
         System.out.println("5. Find items by name");
-        System.out.println("6. Exit Program");
+        System.out.println("6. Update item");
+        System.out.println("7. Exit Program");
     }
 
     public static void createItem(Input input, Tracker tracker) {
@@ -141,5 +145,15 @@ public class StartUI {
         } else {
             System.out.println("Не найдена заявка с именем " + name);
         }
+    }
+
+    public static void replaceItem(Input input, Tracker tracker) {
+        System.out.println(" === Update item ====");
+        String idStr = input.askStr("Enter id:");
+        String name = input.askStr("Enter a new name of item: ");
+        Item item = new Item(name);
+        int id = Integer.parseInt(idStr);
+        item.setId(id);
+        tracker.replace(id, item);
     }
 }
