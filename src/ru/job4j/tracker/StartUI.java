@@ -55,6 +55,7 @@ public class StartUI {
         }
     }
 
+    //deprecated methods
     public void initOld(Input input, Tracker tracker) {
         boolean run = true;
         while (run) {
