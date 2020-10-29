@@ -2,6 +2,8 @@ package ru.job4j.tracker;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StartUI {
     private final Output out;
@@ -14,10 +16,18 @@ public class StartUI {
         Output output = new ConsoleOutput();
         Input input = new ValidateInput(output, new ConsoleInput());
         Tracker tracker = new Tracker();
-        UserAction[] actions = {
-                new CreateAction(output), new ShowAllAction(), new EditAction(), new DeleteAction(),
-                new FindByIdAction(), new FindByNameAction(), new ExitAction()
-        };
+        List<UserAction> actions = new ArrayList<>();
+        actions.add(new CreateAction(output));
+        actions.add(new ShowAllAction());
+        actions.add(new EditAction());
+        actions.add(new DeleteAction());
+        actions.add(new FindByIdAction());
+        actions.add(new FindByNameAction());
+        actions.add(new ExitAction());
+//        UserAction[] actions = {
+//                new CreateAction(output), new ShowAllAction(), new EditAction(), new DeleteAction(),
+//                new FindByIdAction(), new FindByNameAction(), new ExitAction()
+//        };
         new StartUI(output).init(input, tracker, actions);
 //        Item item = new Item();
 //        LocalDateTime currentDateTime = item.getCreated();
@@ -34,28 +44,49 @@ public class StartUI {
 //        System.out.println("Найденная по Id заявка: " + itemFoundById);
     }
 
-    public void init(Input input, Tracker tracker, UserAction[] actions) {
+    public void init(Input input, Tracker tracker, List<UserAction> actions) {
         boolean run = true;
         while (run) {
             this.showMenu(actions);
             int select = input.askInt("Select: ");
-            if (select < 0 || select >= actions.length) {
-                out.println("Wrong input, you can select: 0 .. " + (actions.length - 1));
+            if (select < 0 || select >= actions.size()) {
+                out.println("Wrong input, you can select: 0 .. " + (actions.size() - 1));
                 continue;
             }
-            UserAction action = actions[select];
+            UserAction action = actions.get(select);
             run = action.execute(input, tracker);
         }
     }
 
-    private void showMenu(UserAction[] actions) {
+    private void showMenu(List<UserAction> actions) {
+        out.println("Menu.");
+        for (int index = 0; index < actions.size(); index++) {
+            out.println(index + ". " + actions.get(index).name());
+        }
+    }
+
+    //deprecated methods
+    public void initOld(Input input, Tracker tracker, UserAction[] actions) {
+        boolean run = true;
+//        while (run) {
+//            this.showMenu(actions);
+//            int select = input.askInt("Select: ");
+//            if (select < 0 || select >= actions.length) {
+//                out.println("Wrong input, you can select: 0 .. " + (actions.length - 1));
+//                continue;
+//            }
+//            UserAction action = actions[select];
+//            run = action.execute(input, tracker);
+//        }
+    }
+
+    private void showMenuOld(UserAction[] actions) {
         out.println("Menu.");
         for (int index = 0; index < actions.length; index++) {
             out.println(index + ". " + actions[index].name());
         }
     }
 
-    //deprecated methods
     public void initOld(Input input, Tracker tracker) {
         boolean run = true;
         while (run) {
