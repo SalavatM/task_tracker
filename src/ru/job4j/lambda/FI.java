@@ -30,5 +30,13 @@ public class FI {
         Comparator<Attachment> comparator3 = (left, right) -> (right.getSize() - left.getSize());
         Arrays.sort(atts, comparator3);
         System.out.println(Arrays.asList(atts));
+
+        //сортировать строки по имени по убыванию
+        Comparator<Attachment> comparator4 = (left, right) -> {
+            System.out.println("compare - " + right.getName() + " : " + left.getName());
+            return right.getName().compareTo(left.getName());
+        };
+        Arrays.sort(atts, comparator4);
+        System.out.println(Arrays.asList(atts));
     }
 }
