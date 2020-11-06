@@ -23,10 +23,10 @@ public class BankService {
     }
 
     public Optional<User> findByPassport(String passport) {
-        List<User> res = users.keySet().stream().distinct()
+        Optional<User> rsl = users.keySet().stream().distinct()
                 .filter(e -> e.getPassport().equals(passport))
-                .collect(Collectors.toList());
-        return res.size() > 0 ? Optional.ofNullable(res.get(0)) : Optional.empty();
+                .findFirst();
+        return rsl;
 
 //        Optional<User> rsl = Optional.empty();
 //        for (User user : users.keySet()) {
