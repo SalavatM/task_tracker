@@ -1,9 +1,6 @@
 package ru.job4j.bank;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class BankService {
@@ -16,37 +13,42 @@ public class BankService {
     }
 
     public void addAccount(String passport, Account account) {
-        User user = findByPassport(passport);
-        if (user != null) {
-            List<Account> listOfAccounts = users.get(user);
+        Optional<User> user = findByPassport(passport);
+        if (user.isPresent()) {
+            List<Account> listOfAccounts = users.get(user.get());
             if (!listOfAccounts.contains(account)) {
                 listOfAccounts.add(account);
             }
         }
     }
 
-    public User findByPassport(String passport) {
+    public Optional<User> findByPassport(String passport) {
         List<User> res = users.keySet().stream().distinct()
                 .filter(e -> e.getPassport().equals(passport))
                 .collect(Collectors.toList());
-        return res.size() > 0 ? res.get(0) : null;
+        return res.size() > 0 ? Optional.ofNullable(res.get(0)) : Optional.empty();
 
+//        Optional<User> rsl = Optional.empty();
 //        for (User user : users.keySet()) {
 //            if (user.getPassport().equals(passport)) {
-//                return user;
+//                rsl = Optional.of(user);
+//                break;
 //            }
 //        }
-//        return null;
+//        return rsl;
+
     }
 
     public Account findByRequisite(String passport, String requisite) {
-        User user = findByPassport(passport);
-        if (user != null) {
-            List<Account> listOfAccounts = users.get(user);
-            List<Account> res = listOfAccounts.stream().distinct()
+        Account res = null;
+        Optional<User> user = findByPassport(passport);
+        if (user.isPresent()) {
+            List<Account> listOfAccounts = users.get(user.get()).stream().distinct()
                     .filter(e -> e.getRequisite().equals(requisite))
                     .collect(Collectors.toList());
-            return res.size() > 0 ? res.get(0) : null;
+            if (listOfAccounts.size() > 0) {
+                res = listOfAccounts.get(0);
+            }
 
 //            for (Account account : listOfAccounts) {
 //                if (account.getRequisite().equals(requisite)) {
@@ -54,7 +56,7 @@ public class BankService {
 //                }
 //            }
         }
-        return null;
+        return res;
     }
 
     public boolean transferMoney(String srcPassport, String srcRequisite,
@@ -79,5 +81,15 @@ public class BankService {
         int index = accounts.indexOf(new Account(requisite, -1));
         Account find = accounts.get(index);
         System.out.println(find.getRequisite() + " -> " + find.getBalance());
+
+        BankService bank = new BankService();
+        bank.addUser(new User("321", "Petr Arsentev"));
+        String passNo = "3211";
+        Optional<User> opt = bank.findByPassport(passNo);
+        if (opt.isPresent()) {
+            System.out.println(opt.get().getUsername());
+        } else {
+            System.out.println("User with passport " + passNo + " is not found");
+        }
     }
 }
